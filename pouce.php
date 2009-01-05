@@ -1,17 +1,14 @@
 <?php
 /*
  * Pouce
- * Cute directory listing
- * (As opposed to the index)
+ * Cute directory listing, index-of style.
  *
- * By Sunny Ripert - <sunny@sunfox.org>
- * Thanks to webs & tslh for their awesomeness
+ * By Sunny Ripert <sunny@sunfox.org>
+ * With thanks to webs & ook for their awesomeness
  * 
  * Licenced under the GNU General Public License
  * http://www.gnu.org/copyleft/gpl.html
  *
- * This file includes the Pouce, Inode, File, Dir classes and a few helpers
- * see dir-generator.php for an example.
  */
 
 require 'geshi.php';
