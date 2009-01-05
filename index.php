@@ -24,6 +24,7 @@ body {font: 90% Helvetica, sans-serif; padding:.5em; background:white; color:bla
 h1 {color: #ccc}
 h1 a {text-decoration: none; border-bottom: 1px solid #eee; color: #666}
 table {color: #333}
+.viewsource {text-decoration:none;}
 <?php echo $page->style(); ?>
   </style>
 </head>
@@ -53,7 +54,10 @@ table {color: #333}
 <?php foreach ($page->files() as $file) : ?>
     <tr>
       <td><img src="<?php echo h($file->icon()) ?>" alt="<?php echo h($file->type()) ?>" /></td>
-      <td><a href="<?php echo h($file->uri()) ?>"><?php echo h($file->name()) ?></a></td>
+      <td>
+        <a href="<?php echo h($file->uri()) ?>"><?php echo h($file->name()) ?></a>
+        <?php if ($file->is_file() and $file->is_text()) : ?><a class="viewsource" title="View source" href="?<?php echo h($file->uri()) ?>">☭</a><?php endif; ?>
+      </td>
       <td><?php echo h($file->size()) ?></td>
     </tr>
 <?php endforeach; ?>
