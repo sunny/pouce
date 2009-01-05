@@ -16,9 +16,8 @@
 
 require 'geshi.php';
 
+if (!defined('POUCE_LIB_URI'))   define('POUCE_LIB_URI', '/pouce');
 if (!defined('POUCE_ROOT_NAME')) define('POUCE_ROOT_NAME', $_SERVER['HTTP_HOST']);
-if (!defined('POUCE_ROOT_URI'))  define('POUCE_ROOT_URI', '/');
-if (!defined('POUCE_LIB_URI'))  define('POUCE_LIB_URI', POUCE_ROOT_URI . 'pouce');
 
 class Pouce {
   function __construct($uri) {
@@ -48,7 +47,7 @@ class Pouce {
   // File path towards current page
   function path() {
     $path = $this->wants_file() ? implode('/', $this->uri_folders()) . '/' . $this->name() : $this->uri;
-    return $_SERVER['DOCUMENT_ROOT'] . $path;
+    return $_SERVER['DOCUMENT_ROOT'] . '/' . $path;
   }
 
   // HTML links to upper level folders
