@@ -180,9 +180,6 @@ class Inode {
 }
 
 class File extends Inode {
-  function uri() {
-    return ($this->is_text() ? '?' : '') . $this->name();
-  }
   function contents() {
     return file_get_contents($this->path);
   }
