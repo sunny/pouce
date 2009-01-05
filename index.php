@@ -1,7 +1,12 @@
 <?php
 /* Template for Pouce directory generator by Sunny Ripert */
 
-define('POUCE_LIB_URI', '/pouce/trunk/pouce');
+// URI to where your Pouce directory can be found
+define('POUCE_LIB_URI', '/pouce');
+
+// Name of the top directory (by default the server host)
+// define('POUCE_ROOT_NAME', 'My awesome stuff');
+
 require 'pouce/pouce.php';
 
 $page = new Pouce(urldecode($_SERVER['REQUEST_URI']));
