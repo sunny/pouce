@@ -5,15 +5,16 @@
  *
  * By Sunny Ripert <sunny@sunfox.org>
  * With thanks to webs & ook for their awesomeness
- * 
+ *
  * Licenced under the GNU General Public License
  * http://www.gnu.org/copyleft/gpl.html
  *
  */
 
+
 require 'geshi.php';
 
-if (!defined('POUCE_LIB_URI'))   define('POUCE_LIB_URI', '/pouce');
+if (!defined('POUCE_LIB_URI'))  define('POUCE_LIB_URI', '/pouce');
 if (!defined('POUCE_ROOT_NAME')) define('POUCE_ROOT_NAME', $_SERVER['HTTP_HOST']);
 
 class Pouce {
@@ -23,18 +24,18 @@ class Pouce {
       $this->uri = implode('/', $this->uri_folders());
     $this->inode = Inode::repr($this->path());
   }
-  
+
   // Current page
   function page() {
     return basename($this->uri);
   }
-  
+
   // Current page starts with a question mark
   function wants_file() {
     $page = $this->page();
     return $page[0] == '?';
   }
-  
+
   // Good looking name of current page
   function name() {
     $name = ($this->wants_file()) ? substr($this->page(), 1) : $this->page();
@@ -48,7 +49,7 @@ class Pouce {
   }
 
   // HTML links to upper level folders
-  function fancy_path() { 
+  function fancy_path() {
     if (count($this->uri_parts()) == 0)
       return h(POUCE_ROOT_NAME);
 
@@ -61,14 +62,14 @@ class Pouce {
     $string .= '/' . $this->name();
     return $string;
   }
-  
+
   // Array of upper level folders
   function uri_folders() {
     $folders = $this->uri_parts();
     array_pop($folders);
     return $folders;
   }
-  
+
   // Array of not-empty parts of the URI
   function uri_parts() {
     $parts = explode('/', $this->uri);
@@ -91,11 +92,11 @@ class Pouce {
   function not_found() {
     return !$this->is_file() and !$this->is_dir();
   }
-  
+
   function type() {
     return $this->inode === false ? '' : $this->inode->type();
   }
-  
+
   function files() {
     return $this->is_dir() ? $this->inode->files() : array();
   }
@@ -103,7 +104,7 @@ class Pouce {
     $inode = ($this->inode) ? $this->inode : new Inode('.');
     return $inode->icon();
   }
-  
+
   // Return text from README file in the directory
   function readme() {
     foreach ($this->files() as $file)
@@ -111,7 +112,7 @@ class Pouce {
         return '<p>'.nl2br(h($file->contents())).'</p>';
     return '';
   }
-  
+
   // Geshi syntax highlighting
   function geshi() {
     if ($this->is_file() === false) return false;
@@ -120,7 +121,7 @@ class Pouce {
     $this->geshi->enable_classes();
     $this->geshi->enable_keyword_links(false);
     return $this->geshi;
-  }  
+  }
   function style() {
     return $this->geshi() ? $this->geshi()->get_stylesheet() : '';
   }
@@ -164,7 +165,7 @@ class Inode {
   }
   function icon() {
     return POUCE_LIB_URI . '/images/' . $this->type() . '.png';
-  }  
+  }
 
   static
   function repr($path) {
@@ -276,9 +277,9 @@ class File extends Inode {
       'pdf' => 'x-office-document',
       'rtf' => 'x-office-document',
       'xls' => 'x-office-spreadsheet',
-      
+
       'ttf' => 'font',
-      
+
       'txt' => 'text-x-generic',
       'log' => 'text-x-generic',
     );
@@ -286,12 +287,12 @@ class File extends Inode {
       return 'application-x-executable';
     return $extensions[$this->extension()];
   }
-  
+
   // Can be read as code or plain text ?
   function is_text() {
     return startswith($this->type(), 'text-');
   }
-  
+
   // Code languages, useful for syntax highlighting like GeSHi
   function language() {
     if ($this->is_dir()) return '';
@@ -314,7 +315,7 @@ class File extends Inode {
       return $this->extension();
     return $languages[$this->extension()];
   }
-  
+
   // String representation of file size
   function size() {
     $size = filesize($this->path);
@@ -335,7 +336,7 @@ class Dir extends Inode {
   function type() {
     return 'folder';
   }
-  
+
   // Return sorted array of Dir and File objects
   function files() {
     $files = array();
@@ -344,7 +345,7 @@ class Dir extends Inode {
     }
     return $files;
   }
-  
+
   // Return sorted array of foldernames and filenames
   function filenames() {
     $filenames = $foldernames = array();
@@ -367,13 +368,14 @@ class Dir extends Inode {
 
 // Helpers
 function h($t) {
-	return htmlspecialchars($t);
-}
-function startswith($hay, $needle) {
-	return $needle === $hay or strpos($hay, $needle) === 0;
-}
-function endswith($hay, $needle) {
-    return $needle === $hay or strpos(strrev($hay), strrev($needle)) === 0;
+  return htmlspecialchars($t);
 }
 
+function startswith($hay, $needle) {
+  return $needle === $hay or strpos($hay, $needle) === 0;
+}
+
+function endswith($hay, $needle) {
+  return $needle === $hay or strpos(strrev($hay), strrev($needle)) === 0;
+}
 
