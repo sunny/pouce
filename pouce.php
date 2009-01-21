@@ -13,6 +13,7 @@
 
 
 require 'geshi.php';
+require 'labels.class.php';
 
 if (!defined('POUCE_LIB_URI'))  define('POUCE_LIB_URI', '/pouce');
 if (!defined('POUCE_ROOT_NAME')) define('POUCE_ROOT_NAME', $_SERVER['HTTP_HOST']);
@@ -165,6 +166,13 @@ class Inode {
   }
   function icon() {
     return POUCE_LIB_URI . '/images/' . $this->type() . '.png';
+  }
+
+  function label_index() {
+    global $_labels;
+    if (!$_labels)
+      $_labels = new Labels();
+    return $_labels->index_for($this->path);
   }
 
   static
