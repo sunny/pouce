@@ -11,7 +11,6 @@
  *
  */
 
-
 require 'geshi.php';
 require 'labels.class.php';
 
@@ -109,6 +108,7 @@ class Pouce {
     return $inode->icon();
   }
 
+
   // Return text from README file in the directory
   function readme() {
     foreach ($this->files() as $file)
@@ -138,7 +138,7 @@ class Pouce {
 
 class Inode {
   function __construct($path) {
-    $this->path = $path;
+    $this->path = preg_replace('#//+#', '/', $path); // remove multiple slashes
   }
   function name() {
     return basename($this->path);
@@ -351,9 +351,8 @@ class Dir extends Inode {
   // Return sorted array of Dir and File objects
   function files() {
     $files = array();
-    foreach ($this->filenames() as $file) {
+    foreach ($this->filenames() as $file)
       $files[] = Inode::repr($this->path . '/' . $file);
-    }
     return $files;
   }
 
