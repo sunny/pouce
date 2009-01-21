@@ -15,8 +15,11 @@
 require 'geshi.php';
 require 'labels.class.php';
 
-if (!defined('POUCE_LIB_URI'))  define('POUCE_LIB_URI', '/pouce');
+if (!defined('POUCE_LIB_URI'))   define('POUCE_LIB_URI', '/pouce');
 if (!defined('POUCE_ROOT_NAME')) define('POUCE_ROOT_NAME', $_SERVER['HTTP_HOST']);
+
+define('IGNORED_FILENAMES', '/^(\.|\.\.|\.DS_Store|Icon.)$/');
+define('PLAIN_FILES', '/^(README|\.htaccess|\.gitignore)$/');
 
 class Pouce {
   function __construct($uri) {
@@ -196,7 +199,7 @@ class File extends Inode {
 
   // File-type from extension in Tango naming style
   function type() {
-    if ($this->name() == 'README')
+    if (preg_match($this->name(), PLAIN_FILES))
       return 'text-x-generic';
 
     $extensions = array(
@@ -359,7 +362,7 @@ class Dir extends Inode {
     $filenames = $foldernames = array();
     $handle = opendir($this->path);
     while (false !== ($file = readdir($handle))) {
-      if ($file[0] != '.') {
+      if (!preg_match(IGNORED_FILENAMES, $file)) {
         if (is_dir($this->path . '/' . $file))
           $foldernames[] = $file;
         else
