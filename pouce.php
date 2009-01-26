@@ -199,7 +199,7 @@ class File extends Inode {
 
   // File-type from extension in Tango naming style
   function type() {
-    if (preg_match($this->name(), PLAIN_FILES))
+    if (preg_match(PLAIN_FILES, $this->name()))
       return 'text-x-generic';
 
     $extensions = array(
