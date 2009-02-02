@@ -14,11 +14,11 @@
 require 'geshi.php';
 require 'labels.class.php';
 
-if (!defined('POUCE_LIB_URI'))   define('POUCE_LIB_URI', '/pouce');
+if (!defined('POUCE_LIB_URI')) define('POUCE_LIB_URI', '/pouce');
 if (!defined('POUCE_ROOT_NAME')) define('POUCE_ROOT_NAME', $_SERVER['HTTP_HOST']);
 
-define('IGNORED_FILENAMES', '/^(\.|\.\.|\.DS_Store|Icon.)$/');
-define('PLAIN_FILES', '/^(README|\.htaccess|\.gitignore)$/');
+if (!defined('IGNORED_FILENAMES')) define('IGNORED_FILENAMES', '/^(\.|\.\.|\.DS_Store|Icon.)$/');
+if (!defined('PLAIN_FILES')) define('PLAIN_FILES', '/^(README|\.htaccess|\.gitignore)$/');
 
 class Pouce {
   function __construct($uri) {
