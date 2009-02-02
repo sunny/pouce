@@ -1,16 +1,6 @@
 <?php
-/* Template for Pouce directory generator by Sunny Ripert */
-
-// URI to where your Pouce directory can be found
-define('POUCE_LIB_URI', '/pouce');
-
-// Name of the top directory (by default the server host)
-// define('POUCE_ROOT_NAME', 'My awesome stuff');
-
-require 'pouce/pouce.php';
-
+require dirname(__FILE__).'/pouce.php';
 $page = new Pouce(urldecode($_SERVER['REQUEST_URI']));
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
