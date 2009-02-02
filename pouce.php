@@ -1,24 +1,12 @@
 <?php
-/*
- * Pouce
- * Cute directory listing, index-of style.
- *
- * By Sunny Ripert <sunny@sunfox.org>
- * With thanks to webs & ook for their awesomeness
- *
- * Licenced under the GNU General Public License
- * http://www.gnu.org/copyleft/gpl.html
- *
- */
-
-require 'geshi.php';
-require 'labels.class.php';
 
 if (!defined('POUCE_LIB_URI')) define('POUCE_LIB_URI', '/pouce');
 if (!defined('POUCE_ROOT_NAME')) define('POUCE_ROOT_NAME', $_SERVER['HTTP_HOST']);
-
 if (!defined('IGNORED_FILENAMES')) define('IGNORED_FILENAMES', '/^(\.|\.\.|\.DS_Store|Icon.)$/');
 if (!defined('PLAIN_FILES')) define('PLAIN_FILES', '/^(README|\.htaccess|\.gitignore)$/');
+
+require 'geshi.php';
+require 'labels.class.php';
 
 class Pouce {
   function __construct($uri) {
