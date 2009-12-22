@@ -196,12 +196,16 @@ class File extends Inode {
       'jpeg' => 'image-x-generic',
       'jpg' => 'image-x-generic',
       'bmp' => 'image-x-generic',
+      'tif' => 'image-x-generic',
       'tiff' => 'image-x-generic',
       'psd' => 'image-x-generic',
       'psp' => 'image-x-generic',
       'svg' => 'image-x-generic',
       'xcf' => 'image-x-generic',
       'ico' => 'image-x-generic',
+      'ai' => 'image-x-generic',
+      'indd' => 'image-x-generic',
+      'eps' => 'image-x-generic',
 
       'mp3' => 'audio-x-generic',
       'ogg' => 'audio-x-generic',
@@ -226,6 +230,8 @@ class File extends Inode {
       'flv' => 'video-x-generic',
       'mpg' => 'video-x-generic',
       'ram' => 'video-x-generic',
+      'mov' => 'video-x-generic',
+      'mp4' => 'video-x-generic',
 
       'htm' => 'text-html',
       'html' => 'text-html',
@@ -237,6 +243,7 @@ class File extends Inode {
       'php' => 'text-x-script',
       'php3' => 'text-x-script',
       'rb' => 'text-x-script',
+      'ru' => 'text-x-script',
       'Rakefile' => 'text-x-script',
       'py' => 'text-x-script',
       'c' => 'text-x-script',
@@ -277,14 +284,15 @@ class File extends Inode {
       'rtf' => 'x-office-document',
       'xls' => 'x-office-spreadsheet',
 
-      'ttf' => 'font',
+      // 'ttf' => 'font',
 
       'txt' => 'text-x-generic',
+      'markdown' => 'text-x-generic',
       'log' => 'text-x-generic',
     );
-    if (!array_key_exists($this->extension(), $extensions))
+    if (!array_key_exists(strtolower($this->extension()), $extensions))
       return 'application-x-executable';
-    return $extensions[$this->extension()];
+    return $extensions[strtolower($this->extension())];
   }
 
   // Can be read as code or plain text ?
@@ -306,6 +314,7 @@ class File extends Inode {
       'pl' => 'perl',
       'py' => 'python',
       'rb' => 'ruby',
+      'ru' => 'ruby',
       'Rakefile' => 'ruby',
       'rhtml' => 'rails',
       'sh' => 'bash',
