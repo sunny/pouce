@@ -24,7 +24,7 @@ class Pouce {
   // Current page starts with a question mark
   function wants_file() {
     $page = $this->page();
-    return $page[0] == '?';
+    return isset($page[0]) and $page[0] == '?';
   }
 
   // Good looking name of current page
@@ -318,10 +318,10 @@ class File extends Inode {
   // String representation of file size
   function size() {
     $size = filesize($this->path);
-    $symbols = array(1 => "k", "M", "G", "T", "P", "E", "Z", "Y");
+    $symbols = array("", "k", "M", "G", "T", "P", "E", "Z", "Y");
     for ($i = 0; $i < count($symbols) - 1 && $size >= 1000; $i++)
       $size /= 1000;
-    $p = strpos($val, '.');
+    $p = strpos($size, '.');
     if ($p !== false)
       $size = $p > 3 ? round($size) : round($size, 3 - $p);
     return round($size, 3) . ' ' . $symbols[$i] . 'B';
