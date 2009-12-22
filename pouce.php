@@ -1,9 +1,12 @@
 <?php
 
-if (!defined('POUCE_LIB_URI')) define('POUCE_LIB_URI', '/pouce');
-if (!defined('POUCE_ROOT_NAME')) define('POUCE_ROOT_NAME', $_SERVER['HTTP_HOST']);
+if (is_readable(dirname(__FILE__).'/config.php'))
+  include dirname(__FILE__).'/config.php';
+
+if (!defined('POUCE_LIB_URI'))     define('POUCE_LIB_URI', '/pouce');
+if (!defined('POUCE_ROOT_NAME'))   define('POUCE_ROOT_NAME', $_SERVER['HTTP_HOST']);
 if (!defined('IGNORED_FILENAMES')) define('IGNORED_FILENAMES', '/^(\.|\.\.|\.DS_Store|Icon.)$/');
-if (!defined('PLAIN_FILES')) define('PLAIN_FILES', '/^(README|\.htaccess|\.gitignore)$/');
+if (!defined('PLAIN_FILES'))       define('PLAIN_FILES', '/^(README|\.htaccess|\.gitignore)$/');
 
 require 'geshi.php';
 require 'labels.class.php';
