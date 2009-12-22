@@ -12,14 +12,6 @@ Licenced under the GNU General Public License
 Usage
 -----
 
-Place the directory where you want, then make your HTTP Server serve `pouce/index.php` whenever it hits a 404.
+Place Pouce on a web server which serves `pouce/index.php` whenever it hits a 404. If you use Apache, have a look at `htaccess.example`.
 
-Or, alternatively, create `index.php` files in folders where you want Pouce to be, with the following code:
-
-  <?php require '/path/to/pouce/index.php';
-
-You may also add a few constants before the `require`, for example:
-
-  define('IGNORED_FILENAMES', '/^(\..*|index\.php)$/');
-  define('POUCE_LIB_URI', '/pouce/');
-  define('POUCE_ROOT_NAME', 'My super super duper files');
+Finally, configure Pouce by copying `config.example.php` to `config.php` and editing it at your liking.
