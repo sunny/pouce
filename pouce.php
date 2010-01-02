@@ -9,7 +9,6 @@ if (!defined('IGNORED_FILENAMES')) define('IGNORED_FILENAMES', '/^(\.|\.\.|\.DS_
 if (!defined('PLAIN_FILES'))       define('PLAIN_FILES', '/^(README|\.htaccess|\.gitignore)$/');
 
 require 'geshi.php';
-require 'labels.class.php';
 
 class Pouce {
   function __construct($uri) {
@@ -160,13 +159,6 @@ class Inode {
   }
   function icon() {
     return POUCE_LIB_URI . '/images/' . $this->type() . '.png';
-  }
-
-  function label_index() {
-    global $_labels;
-    if (!$_labels)
-      $_labels = new Labels();
-    return $_labels->index_for($this->path);
   }
 
   static
