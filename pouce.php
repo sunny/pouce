@@ -361,7 +361,7 @@ class File extends Inode {
 
   // Returns true if the file can be read as plain text
   function is_text() {
-    return startswith($this->type(), 'text-');
+    return preg_match('^text-', $this->type());
   }
 
   // Return fullname of the language for the code
@@ -451,13 +451,5 @@ class Dir extends Inode {
 // Example: h("42>0") # => "42&gt;0"
 function h($t) {
   return htmlspecialchars($t);
-}
-
-function startswith($hay, $needle) {
-  return $needle === $hay or strpos($hay, $needle) === 0;
-}
-
-function endswith($hay, $needle) {
-  return $needle === $hay or strpos(strrev($hay), strrev($needle)) === 0;
 }
 
