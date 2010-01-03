@@ -10,7 +10,15 @@ if (!defined('PLAIN_FILES'))       define('PLAIN_FILES', '/^(README|\.htaccess|\
 
 require 'geshi.php';
 
+/*
+ * Pouce class
+ *
+ * A Pouce object represents a page to show, either a directory or the contents
+ * of a file.
+ */
 class Pouce {
+  // Constructer takes a URI
+  // Example: new Pouce('/foo/bar')
   function __construct($uri) {
     $this->uri = $uri;
     if (realpath($_SERVER['DOCUMENT_ROOT'] . $this->uri) == realpath($_SERVER['SCRIPT_FILENAME']))
@@ -18,30 +26,32 @@ class Pouce {
     $this->inode = Inode::repr($this->path());
   }
 
-  // Current page
+  // Returns the current page name
   function page() {
     return basename($this->uri);
   }
 
-  // Current page starts with a question mark
+  // Returns true if the current page starts with a question mark
+  // For example "/files/?file.txt" means the user want to see file.txt's source
   function wants_file() {
     $page = $this->page();
     return isset($page[0]) and $page[0] == '?';
   }
 
-  // Good looking name of current page
+  // Returns a good looking name of the current page, without a question mark
+  // Returns the root name if the pagename is empty
   function name() {
     $name = ($this->wants_file()) ? substr($this->page(), 1) : $this->page();
     return $name ? $name : POUCE_ROOT_NAME;
   }
 
-  // File path towards current page
+  // Returns the full file path towards the current file or directory
   function path() {
     $path = $this->wants_file() ? implode('/', $this->uri_folders()) . '/' . $this->name() : $this->uri;
     return $_SERVER['DOCUMENT_ROOT'] . '/' . $path;
   }
 
-  // HTML links to upper level folders
+  // Returns HTML links towards the upper level folders seperated by "/"
   function fancy_path() {
     if (count($this->uri_parts()) == 0)
       return h(POUCE_ROOT_NAME);
@@ -56,14 +66,14 @@ class Pouce {
     return $string;
   }
 
-  // Array of upper level folders
+  // Returns an array of upper level folder names
   function uri_folders() {
     $folders = $this->uri_parts();
     array_pop($folders);
     return $folders;
   }
 
-  // Array of not-empty parts of the URI
+  // Returns an array of the different parts of the URI
   function uri_parts() {
     $parts = explode('/', $this->uri);
     $folders = array();
@@ -73,33 +83,42 @@ class Pouce {
     return $folders;
   }
 
-  // Shortcuts to underlying inode
+  /* Here come shortcuts to the underlying Inode object */
+
+  // Returns wether the page is a file
   function is_file() {
     return $this->inode !== false ? $this->inode->is_file() : false;
   }
 
+  // Returns wether the page is a directory
   function is_dir() {
     return $this->inode !== false ? $this->inode->is_dir() : false;
   }
 
+  // Returns wether the page exists
   function not_found() {
     return !$this->is_file() and !$this->is_dir();
   }
 
+  // Returns a string with the page's file type or "directory"
   function type() {
     return $this->inode === false ? '' : $this->inode->type();
   }
 
+  // Returns array of children files for directories
   function files() {
     return $this->is_dir() ? $this->inode->files() : array();
   }
+
+  // Returns the file's icon URI
   function icon() {
+    // FIXME why is this necessary?
     $inode = ($this->inode) ? $this->inode : new Inode('.');
     return $inode->icon();
   }
 
 
-  // Return text from README file in the directory
+  // Returns HTML from the contents of the README file if it exists in the directory
   function readme() {
     foreach ($this->files() as $file)
       if ($file->name() == 'README')
@@ -107,7 +126,8 @@ class Pouce {
     return '';
   }
 
-  // Geshi syntax highlighting
+  // Applies the GeSHi syntax highlighter around the file's contents
+  // and returns the Geshi object
   function geshi() {
     if ($this->is_file() === false) return false;
     if (isset($this->geshi)) return $this->geshi;
@@ -116,9 +136,13 @@ class Pouce {
     $this->geshi->enable_keyword_links(false);
     return $this->geshi;
   }
+
+  // Returns the geshi
   function style() {
     return $this->geshi() ? $this->geshi()->get_stylesheet() : '';
   }
+
+  // Returns HTML for the highlighted text from the page or the README file
   function text() {
     if ($this->geshi())
       return $this->geshi()->parse_code();
@@ -126,41 +150,74 @@ class Pouce {
   }
 }
 
+/*
+ * Inode class
+ *
+ * Inode objects represents the underlying file or directory used in Pouce,
+ * is inherited by File and Dir classes.
+ */
 class Inode {
+  // Constructor takes a full path
+  // Example: new Inode('/var/www/things')
   function __construct($path) {
     $this->path = preg_replace('#//+#', '/', $path); // remove multiple slashes
   }
+
+  // Returns the Inode's last part
+  // Example: $inode->name() #=> "things"
   function name() {
     return basename($this->path);
   }
+
+  // Alias towards name()
   function uri() {
     return $this->name();
   }
+
+  // Returns true if the Inode is a file
   function is_file() {
     return is_file($this->path);
   }
+
+  // Returns true if the Inode is a directory
   function is_dir() {
     return is_dir($this->path);
   }
+
+  // Returns the file size in a string or "-" if not applicable
   function size() {
     return '-';
   }
+
+  // Returns the file type
   function type() {
     return 'inode';
   }
+
+  // Returns the file's extension or the name of the inode if not applicable
   function extension() {
     return $this->name();
   }
+
+  // Returns the inode's language from its extension if applicable
   function language() {
     return '';
   }
+
+  // Returns the contents of the inode
   function text() {
     return '';
   }
+
+  // Returns a URI towards the image depending on its type
   function icon() {
     return POUCE_LIB_URI . '/images/' . $this->type() . '.png';
   }
 
+  // Returns a File or Dir object (both inherit from Inode) from the given path
+  // Example:
+  //  Inode::repr('/var/www/stuff/') # => <Dir>
+  //  Inode::repr('/var/www/file.txt') #=> <File>
   static
   function repr($path) {
     if (is_dir($path))
@@ -171,16 +228,26 @@ class Inode {
   }
 }
 
+/*
+ * File class
+ *
+ * A more specific Inode for files
+ */
 class File extends Inode {
+  // Returns the file contents as a string
   function contents() {
     return file_get_contents($this->path);
   }
+
+  // Returns the file's extension
+  // Example: new File('/var/www/foo.php')->extension() # => 'php'
   function extension() {
     $ext = substr(strrchr($this->name(), '.'), 1);
     return $ext ? $ext : $this->name();
   }
 
-  // File-type from extension in Tango naming style
+  // Returns the file-type from it's extension (using the Tango naming style)
+  // Example: new File('/var/www/foo.php')->type() # => 'text-x-script'
   function type() {
     if (preg_match(PLAIN_FILES, $this->name()))
       return 'text-x-generic';
@@ -233,7 +300,7 @@ class File extends Inode {
       'shtml' => 'text-html',
       'dhtml' => 'text-html',
       'rhtml' => 'text-html',
-      'erb' => 'text-html', # TODO support double extension of use regexp
+      'erb' => 'text-html', # TODO support double extensions .html.erb .txt.erb
 
       'php' => 'text-x-script',
       'php3' => 'text-x-script',
@@ -279,23 +346,26 @@ class File extends Inode {
       'rtf' => 'x-office-document',
       'xls' => 'x-office-spreadsheet',
 
+      // TODO add icon for fonts
       // 'ttf' => 'font',
 
       'txt' => 'text-x-generic',
       'markdown' => 'text-x-generic',
       'log' => 'text-x-generic',
     );
+
     if (!array_key_exists(strtolower($this->extension()), $extensions))
       return 'application-x-executable';
     return $extensions[strtolower($this->extension())];
   }
 
-  // Can be read as code or plain text ?
+  // Returns true if the file can be read as plain text
   function is_text() {
     return startswith($this->type(), 'text-');
   }
 
-  // Code languages, useful for syntax highlighting like GeSHi
+  // Return fullname of the language for the code
+  // Useful for GeSHi's syntax highlighting
   function language() {
     if ($this->is_dir()) return '';
     $languages = array(
@@ -319,7 +389,7 @@ class File extends Inode {
     return $languages[$this->extension()];
   }
 
-  // String representation of file size
+  // Returns a string representation of the file size if bytes
   function size() {
     $size = filesize($this->path);
     $symbols = array("", "k", "M", "G", "T", "P", "E", "Z", "Y");
@@ -332,15 +402,23 @@ class File extends Inode {
   }
 }
 
+/*
+ * Dir class
+ *
+ * A more specific Inode for directories
+ */
 class Dir extends Inode {
+  // Returns the name of the directory ending with a slash
   function name() {
     return basename($this->path).'/';
   }
+
+  // Returns "folder"
   function type() {
     return 'folder';
   }
 
-  // Return sorted array of Dir and File objects
+  // Returns a sorted array of its Dir and File children
   function files() {
     $files = array();
     foreach ($this->filenames() as $file)
@@ -348,7 +426,8 @@ class Dir extends Inode {
     return $files;
   }
 
-  // Return sorted array of foldernames and filenames
+  // Returns a sorted array of the children folders followed by the children
+  // files as strings
   function filenames() {
     $filenames = $foldernames = array();
     $handle = opendir($this->path);
@@ -368,7 +447,8 @@ class Dir extends Inode {
 }
 
 
-// Helpers
+// Helper Alias to escape HTML entities in the view
+// Example: h("42>0") # => "42&gt;0"
 function h($t) {
   return htmlspecialchars($t);
 }
