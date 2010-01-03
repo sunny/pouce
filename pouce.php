@@ -194,21 +194,6 @@ class Inode {
     return 'inode';
   }
 
-  // Returns the file's extension or the name of the inode if not applicable
-  function extension() {
-    return $this->name();
-  }
-
-  // Returns the inode's language from its extension if applicable
-  function language() {
-    return '';
-  }
-
-  // Returns the contents of the inode
-  function text() {
-    return '';
-  }
-
   // Returns a URI towards the image depending on its type
   function icon() {
     return POUCE_LIB_URI . '/images/' . $this->type() . '.png';
