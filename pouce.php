@@ -346,7 +346,7 @@ class File extends Inode {
 
   // Returns true if the file can be read as plain text
   function is_text() {
-    return preg_match('^text-', $this->type());
+    return preg_match('/^text-/', $this->type());
   }
 
   // Return fullname of the language for the code
