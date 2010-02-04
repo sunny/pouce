@@ -335,8 +335,7 @@ class File extends Inode {
       'rtf' => 'x-office-document',
       'xls' => 'x-office-spreadsheet',
 
-      // TODO add icon for fonts
-      // 'ttf' => 'font',
+      'ttf' => 'font-x-generic',
 
       'txt' => 'text-x-generic',
       'markdown' => 'text-x-generic',
