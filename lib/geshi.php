@@ -50,7 +50,7 @@ if (!defined('GESHI_ROOT')) {
 }
 /** The language file directory for GeSHi
     @access private */
-define('GESHI_LANG_ROOT', GESHI_ROOT . 'geshi' . DIRECTORY_SEPARATOR);
+define('GESHI_LANG_ROOT', GESHI_ROOT . 'geshi-languages' . DIRECTORY_SEPARATOR);
 
 
 // Line numbers - use with enable_line_numbers()

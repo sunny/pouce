@@ -1,14 +1,14 @@
 <?php
 
-if (is_readable(dirname(__FILE__).'/config.php'))
-  include dirname(__FILE__).'/config.php';
+if (is_readable(dirname(__FILE__).'/../config.php'))
+  include dirname(__FILE__).'/../config.php';
 
 if (!defined('POUCE_LIB_URI'))     define('POUCE_LIB_URI', '/pouce');
 if (!defined('POUCE_ROOT_NAME'))   define('POUCE_ROOT_NAME', $_SERVER['HTTP_HOST']);
 if (!defined('IGNORED_FILENAMES')) define('IGNORED_FILENAMES', '/^(\.|\.\.|\.DS_Store|Icon.)$/');
 if (!defined('PLAIN_FILES'))       define('PLAIN_FILES', '/^(README|\.htaccess|\.gitignore)$/');
 
-require 'geshi.php';
+require dirname(__FILE__).'/geshi.php';
 
 /*
  * Pouce class
@@ -409,8 +409,10 @@ class Dir extends Inode {
   // Returns a sorted array of its Dir and File children
   function files() {
     $files = array();
-    foreach ($this->filenames() as $file)
-      $files[] = Inode::repr($this->path . '/' . $file);
+    foreach ($this->filenames() as $file) {
+      if ($repr = Inode::repr($this->path . '/' . $file))
+        $files[] = $repr;
+    }
     return $files;
   }
 

@@ -1,5 +1,5 @@
 <?php
-require dirname(__FILE__).'/pouce.php';
+require dirname(__FILE__).'/lib/pouce.php';
 $page = new Pouce(urldecode($_SERVER['REQUEST_URI']));
 ?>
 <!DOCTYPE html>
