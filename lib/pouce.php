@@ -184,9 +184,9 @@ class Inode {
     return is_dir($this->path);
   }
 
-  // Returns the file size in a string or "-" if not applicable
+  // Returns the file size in a string or "" if not applicable
   function size() {
-    return '-';
+    return '';
   }
 
   // Returns the file type
