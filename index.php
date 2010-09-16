@@ -22,6 +22,7 @@ table {color: #333}
 
 <h1><?php echo $page->fancy_path() ?></h1>
 
+<?php if ($page->not_found() or $page->text()) : ?>
 <div class="text">
   <?php if ($page->not_found()) : ?>
 
@@ -31,6 +32,7 @@ table {color: #333}
   <?php echo $page->text(); ?>
 
 </div>
+<? endif; ?>
 
 <?php if ($page->is_dir()) : ?>
 
@@ -50,6 +52,7 @@ table {color: #333}
       <td>
         <a href="<?php echo h($file->uri()) ?>"><?php echo h($file->name()) ?></a>
         <?php if ($file->is_file() and $file->is_text()) : ?><a class="viewsource" title="View source" href="?<?php echo h($file->uri()) ?>">☭</a><?php endif; ?>
+
       </td>
       <td><?php echo h($file->size()) ?></td>
     </tr>
