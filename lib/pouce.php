@@ -339,6 +339,7 @@ class File extends Inode {
 
       'txt' => 'text-x-generic',
       'markdown' => 'text-x-generic',
+      'md' => 'text-x-generic',
       'log' => 'text-x-generic',
     );
 
