@@ -264,6 +264,7 @@ class File extends Inode {
       'aifc' => 'audio-x-generic',
       'cda' => 'audio-x-generic',
       'm3u' => 'audio-x-generic',
+      'm4a' => 'audio-x-generic',
       'mid' => 'audio-x-generic',
       'mod' => 'audio-x-generic',
       'mp2' => 'audio-x-generic',
