@@ -3,11 +3,15 @@ Pouce
 
 Cute PHP directory lister, index-of style.
 
-By Sunny Ripert (http://sunfox.org)
-With thanks to webs & ook for their awesomeness.
-
 Licenced under the GNU General Public License
 (http://www.gnu.org/copyleft/gpl.html)
+
+Example
+------
+
+http://wtf.sunfox.org/
+
+![wtf.sunfox.org](https://github.com/sunny/pouce/raw/master/images/screenshot.png)
 
 Usage
 -----
