@@ -11,7 +11,7 @@ Example
 
 http://wtf.sunfox.org/
 
-![wtf.sunfox.org](https://github.com/sunny/pouce/raw/master/images/screenshot.png)
+![wtf.sunfox.org](https://github.com/sunny/pouce/raw/wtf/images/screenshot.png)
 
 Usage
 -----
