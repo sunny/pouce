@@ -7,16 +7,10 @@ $page = new Pouce(urldecode($_SERVER['REQUEST_URI']));
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <title><?php echo h($page->name()) ?></title>
-  <link rel="shortcut icon" href="<?php echo h($page->icon()) ?>" />
-  <style>
-body {font: 90% Helvetica, sans-serif; padding:.5em; background:white; color:black}
-h1 {color: #ccc}
-h1 a {text-decoration: none; border-bottom: 1px solid #eee; color: #666}
-table {color: #333}
-.viewsource {text-decoration:none;}
-<?php echo $page->style(); ?>
-
-  </style>
+  <link rel="shortcut icon" href="/_pouce/images/<?= POUCE_IMG_SET ?>/favicon.png" />
+  <link rel="stylesheet" href="/_pouce/css/global.css" media="all">
+  <!-- GeSHi -->
+  <style><?php echo $page->style(); ?></style>
 </head>
 <body>
 
@@ -39,22 +33,32 @@ table {color: #333}
 <table>
   <thead>
     <tr>
-      <th>Type</th>
-      <th>Name</th>
-      <th>Size</th>
+      <th class="type">Type</th>
+      <th class="name">Name</th>
+      <th class="size">Size</th>
+      <th class="source">Source</th>
     </tr>
   </thead>
   <tbody>
 <?php foreach ($page->files() as $file) : ?>
 
     <tr>
-      <td><img src="<?php echo h($file->icon()) ?>" alt="<?php echo h($file->type()) ?>" /></td>
-      <td>
-        <a href="<?php echo h($file->uri()) ?>"><?php echo h($file->name()) ?></a>
-        <?php if ($file->is_file() and $file->is_text()) : ?><a class="viewsource" title="View source" href="?<?php echo h($file->uri()) ?>">☭</a><?php endif; ?>
-
+      <td class="type">
+        <img src="<?php echo h($file->icon()) ?>" alt="<?php echo h($file->type()) ?>" />
       </td>
-      <td><?php echo h($file->size()) ?></td>
+      <td class="name">
+        <a href="<?php echo h($file->uri()) ?>"><?php echo h($file->name()) ?></a>
+      </td>
+      <td class="size">
+        <?php echo h($file->size()) ?>
+      </td>
+      <td  class="source">
+        <?php if ($file->is_file() and $file->is_text()) : ?>
+        <a class="viewsource" title="View source" href="?<?php echo h($file->uri()) ?>">
+          <img src="/_pouce/images/<?= POUCE_IMG_SET ?>/viewsource.png" alt="">
+        </a>
+        <?php endif; ?>
+      </td>
     </tr>
 <?php endforeach; ?>
 
