@@ -7,6 +7,12 @@
 define('POUCE_LIB_URI', '/pouce');
 
 /**
+ * Choose the images set to use for icons.
+ * Don't forget to include favicon.png & viewsource.png, as well as type MIME png's.
+ */
+#define('POUCE_IMG_SET', 'images_folder_name');
+
+/**
  * Choose the title of your pages (defaults to the hostname)
  */
 #define('POUCE_ROOT_NAME', 'Files');

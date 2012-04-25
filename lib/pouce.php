@@ -60,9 +60,9 @@ class Pouce {
     $string = '<a href="/">'.h(POUCE_ROOT_NAME).'</a>';
     foreach ($this->uri_folders() as $folder) {
       $link .= $folder . '/';
-      $string .= '/<a href="'.h($link).'">'.h($folder).'</a>';
+      $string .= ' / <a href="'.h($link).'">'.h($folder).'</a>';
     }
-    $string .= '/' . $this->name();
+    $string .= ' / ' . $this->name();
     return $string;
   }
 
@@ -133,6 +133,7 @@ class Pouce {
     if (isset($this->geshi)) return $this->geshi;
     $this->geshi = new GeSHi($this->inode->contents(), $this->inode->language());
     $this->geshi->enable_classes();
+    $this->geshi->enable_line_numbers(true);
     $this->geshi->enable_keyword_links(false);
     return $this->geshi;
   }
@@ -196,7 +197,7 @@ class Inode {
 
   // Returns a URI towards the image depending on its type
   function icon() {
-    return POUCE_LIB_URI . '/images/' . $this->type() . '.png';
+    return POUCE_LIB_URI . '/images/' . POUCE_IMG_SET . '/' . $this->type() . '.png';
   }
 
   // Returns a File or Dir object (both inherit from Inode) from the given path
@@ -238,43 +239,44 @@ class File extends Inode {
       return 'text-x-generic';
 
     $extensions = array(
-      'png' => 'image-x-generic',
-      'gif' => 'image-x-generic',
+      'png'  => 'image-x-generic',
+      'gif'  => 'image-x-generic',
       'jpeg' => 'image-x-generic',
-      'jpg' => 'image-x-generic',
-      'bmp' => 'image-x-generic',
-      'tif' => 'image-x-generic',
+      'jpg'  => 'image-x-generic',
+      'bmp'  => 'image-x-generic',
+      'tif'  => 'image-x-generic',
       'tiff' => 'image-x-generic',
-      'psd' => 'image-x-generic',
-      'psp' => 'image-x-generic',
-      'svg' => 'image-x-generic',
-      'xcf' => 'image-x-generic',
-      'ico' => 'image-x-generic',
+      'psd'  => 'image-x-generic',
+      'psp'  => 'image-x-generic',
+      'xcf'  => 'image-x-generic',
+      'ico'  => 'image-x-generic',
       'icns' => 'image-x-generic',
-      'ai' => 'image-x-generic',
       'indd' => 'image-x-generic',
-      'eps' => 'image-x-generic',
 
-      'mp3' => 'audio-x-generic',
-      'ogg' => 'audio-x-generic',
+      'ai'   => 'vector-x-generic',
+      'eps'  => 'vector-x-generic',
+      'svg'  => 'vector-x-generic',
+
+      'mp3'  => 'audio-x-generic',
+      'ogg'  => 'audio-x-generic',
       'flac' => 'audio-x-generic',
-      'wav' => 'audio-x-generic',
-      'aif' => 'audio-x-generic',
+      'wav'  => 'audio-x-generic',
+      'aif'  => 'audio-x-generic',
       'aiff' => 'audio-x-generic',
       'aifc' => 'audio-x-generic',
-      'cda' => 'audio-x-generic',
-      'm3u' => 'audio-x-generic',
-      'm4a' => 'audio-x-generic',
-      'mid' => 'audio-x-generic',
-      'mod' => 'audio-x-generic',
-      'mp2' => 'audio-x-generic',
-      'snd' => 'audio-x-generic',
-      'voc' => 'audio-x-generic',
-      'wma' => 'audio-x-generic',
+      'cda'  => 'audio-x-generic',
+      'm3u'  => 'audio-x-generic',
+      'm4a'  => 'audio-x-generic',
+      'mid'  => 'audio-x-generic',
+      'mod'  => 'audio-x-generic',
+      'mp2'  => 'audio-x-generic',
+      'snd'  => 'audio-x-generic',
+      'voc'  => 'audio-x-generic',
+      'wma'  => 'audio-x-generic',
 
       'avi' => 'video-x-generic',
       'wmv' => 'video-x-generic',
-      'qt' => 'video-x-generic',
+      'qt'  => 'video-x-generic',
       'mkv' => 'video-x-generic',
       'flv' => 'video-x-generic',
       'mpg' => 'video-x-generic',
@@ -282,49 +284,54 @@ class File extends Inode {
       'mov' => 'video-x-generic',
       'mp4' => 'video-x-generic',
 
-      'htm' => 'text-html',
-      'html' => 'text-html',
+      'htm'   => 'text-html',
+      'html'  => 'text-html',
       'shtml' => 'text-html',
       'dhtml' => 'text-html',
       'rhtml' => 'text-html',
-      'erb' => 'text-html', # TODO support double extensions .html.erb .txt.erb
+      'erb'   => 'text-html', # TODO support double extensions .html.erb .txt.erb
 
-      'php' => 'text-x-script',
-      'php3' => 'text-x-script',
-      'rb' => 'text-x-script',
-      'ru' => 'text-x-script',
-      'Rakefile' => 'text-x-script',
-      'py' => 'text-x-script',
-      'c' => 'text-x-script',
-      'h' => 'text-x-script',
-      'asp' => 'text-x-script',
-      'cgi' => 'text-x-script',
-      'fcgi' => 'text-x-script',
-      'cpp' => 'text-x-script',
-      'css' => 'text-x-script',
-      'jav' => 'text-x-script',
-      'java' => 'text-x-script',
-      'pl' => 'text-x-script',
-      'pm' => 'text-x-script',
-      'sql' => 'text-x-script',
-      'js' => 'text-x-script',
-      'sh' => 'text-x-script',
-      'fish' => 'text-x-script',
-      'txt' => 'text-x-script',
-      'conf' => 'text-x-script',
-      'yml' => 'text-x-script',
-      'ini' => 'text-x-script',
+      'php'  => 'text-x-script-php',
+      'php3' => 'text-x-script-php',
+
+      'rb'       => 'text-x-script-ruby',
+      'ru'       => 'text-x-script-ruby',
+      'Rakefile' => 'text-x-script-ruby',
+
+      'css'  => 'text-x-script-css',
+      'scss' => 'text-x-script-css',
+
+      'sql'  => 'text-x-script-database',
+
+      'py'    => 'text-x-script',
+      'c'     => 'text-x-script',
+      'h'     => 'text-x-script',
+      'asp'   => 'text-x-script',
+      'cgi'   => 'text-x-script',
+      'fcgi'  => 'text-x-script',
+      'cpp'   => 'text-x-script',
+      'jav'   => 'text-x-script',
+      'java'  => 'text-x-script',
+      'pl'    => 'text-x-script',
+      'pm'    => 'text-x-script',
+      'js'    => 'text-x-script',
+      'sh'    => 'text-x-script',
+      'fish'  => 'text-x-script',
+      'txt'   => 'text-x-script',
+      'conf'  => 'text-x-script',
+      'yml'   => 'text-x-script',
+      'ini'   => 'text-x-script',
       'patch' => 'text-x-script',
 
-      'gz' => 'package-x-generic',
+      'gz'  => 'package-x-generic',
       'tar' => 'package-x-generic',
       'tgz' => 'package-x-generic',
       'zip' => 'package-x-generic',
       'rar' => 'package-x-generic',
-      'bz' => 'package-x-generic',
+      'bz'  => 'package-x-generic',
       'deb' => 'package-x-generic',
       'rpm' => 'package-x-generic',
-      '7z' => 'package-x-generic',
+      '7z'  => 'package-x-generic',
       'ace' => 'package-x-generic',
       'cab' => 'package-x-generic',
       'arj' => 'package-x-generic',
@@ -332,16 +339,21 @@ class File extends Inode {
 
       'doc' => 'x-office-document',
       'odt' => 'x-office-document',
-      'pdf' => 'x-office-document',
       'rtf' => 'x-office-document',
+
       'xls' => 'x-office-spreadsheet',
 
-      'ttf' => 'font-x-generic',
+      'pdf' => 'x-pdf-document',
 
-      'txt' => 'text-x-generic',
+      'ttf'  => 'font-x-generic',
+      'woff' => 'font-x-generic',
+      'eot'  => 'font-x-generic',
+      
+      'example'  => 'text-x-generic',
+      'txt'      => 'text-x-generic',
       'markdown' => 'text-x-generic',
-      'md' => 'text-x-generic',
-      'log' => 'text-x-generic',
+      'md'       => 'text-x-generic',
+      'log'      => 'text-x-generic',
     );
 
     if (!array_key_exists(strtolower($this->extension()), $extensions))
