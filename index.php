@@ -7,15 +7,14 @@ require dirname(__FILE__).'/lib/pouce/controller.php';
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
   <title><?php echo h($page->name()) ?></title>
-  <link rel="shortcut icon" href="/_pouce/images/<?= POUCE_IMG_SET ?>/favicon.png" />
-  <link rel="stylesheet" href="/_pouce/css/global.css" media="all">
-  <!-- GeSHi -->
-  <style><?php echo $page->style(); ?></style>
+  <link rel="shortcut icon" href="<?php echo h(POUCE_LIB_URI) ?>/images/<?php echo h(POUCE_IMG_SET) ?>/favicon.png" />
+  <link rel="stylesheet" media="all" href="<?php echo h(POUCE_LIB_URI) ?>/css/global.css">
+  <style><?php echo $page->style(); ?></style><?php/* GeSHi CSS */?>
+
 </head>
 <body>
 
 <h1><?php echo $page->fancy_path() ?></h1>
-
 <?php if ($page->not_found() or $page->text()) : ?>
 <div class="text">
   <?php if ($page->not_found()) : ?>
@@ -29,7 +28,6 @@ require dirname(__FILE__).'/lib/pouce/controller.php';
 <? endif; ?>
 
 <?php if ($page->is_dir()) : ?>
-
 <table>
   <thead>
     <tr>
@@ -55,7 +53,7 @@ require dirname(__FILE__).'/lib/pouce/controller.php';
       <td  class="source">
         <?php if ($file->is_file() and $file->is_text()) : ?>
         <a class="viewsource" title="View source" href="?<?php echo h($file->uri()) ?>">
-          <img src="/_pouce/images/<?= POUCE_IMG_SET ?>/viewsource.png" alt="">
+          <img src="<?php echo h(POUCE_LIB_URI) ?>/images/<?= POUCE_IMG_SET ?>/viewsource.png" alt="">
         </a>
         <?php endif; ?>
       </td>
