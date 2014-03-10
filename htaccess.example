@@ -1,4 +1,1 @@
-RewriteEngine On
-RewriteBase /
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule .* /path/to/pouce/index.php [L]
+DirectoryIndex index.php index.html /pouce/index.php

@@ -15,10 +15,13 @@ Install
 
 3. Point your empty directories to Pouce's `index.php`.
 
-    This configuration varies depending on your webserver:
+    This configuration varies depending on your webserver.
 
-    - With Apache you can point any 404 towards `index.php` by copying `htaccess.example` into a `.htaccess`
-    - With Nginx, you can add something like this to your configuration :
+    - With Apache you can add this line inside an `.htaccess`:
+
+            DirectoryIndex index.php index.html /pouce/index.php
+
+    - With Nginx, you can add this line to your configuration:
 
             index index.html index.htm index.php /pouce/index.php;
 
