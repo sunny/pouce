@@ -45,14 +45,14 @@ require dirname(__FILE__).'/lib/pouce/controller.php';
         <img src="<?php echo h($file->icon()) ?>" alt="<?php echo h($file->type()) ?>" />
       </td>
       <td class="name">
-        <a href="<?php echo h($file->uri()) ?>"><?php echo h($file->name()) ?></a>
+        <a href="<?php echo h($page->uri) ?><?php echo h($file->uri()) ?>"><?php echo h($file->name()) ?></a>
       </td>
       <td class="size">
         <?php echo h($file->size()) ?>
       </td>
       <td  class="source">
-        <?php if ($file->is_file() and $file->is_text()) : ?>
-        <a class="viewsource" title="View source" href="?<?php echo h($file->uri()) ?>">
+        <?php if ($file->is_dir() or $file->is_text()) : ?>
+        <a class="viewsource" title="View source" href="<?php echo h($page->uri) ?>?<?php echo h($file->uri()) ?>">
           <img src="<?php echo h(POUCE_LIB_URI) ?>/images/<?= POUCE_IMG_SET ?>/viewsource.png" alt="">
         </a>
         <?php endif; ?>
