@@ -9,7 +9,7 @@ require dirname(__FILE__).'/lib/pouce/controller.php';
   <title><?php echo h($page->name()) ?></title>
   <link rel="shortcut icon" href="<?php echo h(POUCE_LIB_URI) ?>/images/<?php echo h(POUCE_IMG_SET) ?>/favicon.png" />
   <link rel="stylesheet" media="all" href="<?php echo h(POUCE_LIB_URI) ?>/css/global.css">
-  <style><?php echo $page->style(); ?></style><?php/* GeSHi CSS */?>
+  <style><?php echo $page->style(); // GeSHi CSS ?></style>
 
 </head>
 <body>
