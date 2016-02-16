@@ -25,7 +25,7 @@ require dirname(__FILE__).'/lib/pouce/controller.php';
   <?php echo $page->text(); ?>
 
 </div>
-<? endif; ?>
+<?php endif; ?>
 
 <?php if ($page->is_dir()) : ?>
 <table>
